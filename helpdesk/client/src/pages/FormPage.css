@@ -1,0 +1,199 @@
+/* Shared styles for IssuePage and FeedbackPage */
+
+.form-card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.char-count {
+  float: right;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ─── PRIORITY INDICATOR ────────────────────────────── */
+.priority-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.priority-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--p-color, #718096);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--p-color, #718096);
+}
+
+.priority-indicator strong {
+  color: var(--p-color, var(--text-primary));
+}
+
+/* ─── STAR RATING ────────────────────────────────────── */
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.stars-row {
+  display: flex;
+  gap: 4px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 36px;
+  color: var(--border-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 2px;
+  line-height: 1;
+}
+
+.star-btn:hover,
+.star-btn.filled {
+  color: #f59e0b;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5));
+}
+
+.rating-label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #f59e0b;
+  text-transform: uppercase;
+}
+
+/* ─── RECOMMEND TOGGLE ───────────────────────────────── */
+.recommend-toggle {
+  display: flex;
+  gap: 12px;
+}
+
+.toggle-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.toggle-option input { display: none; }
+
+.toggle-option:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.toggle-option.selected {
+  background: var(--accent-glow);
+  border-color: var(--accent-red);
+  color: var(--text-primary);
+}
+
+/* ─── SUCCESS STATE EXTRAS ───────────────────────────── */
+.success-details {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0 0;
+  width: 100%;
+  max-width: 360px;
+}
+
+.success-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.success-detail-row + .success-detail-row {
+  border-top: 1px solid var(--border-color);
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-open {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.ticket-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: -12px !important;
+}
+
+/* ─── FORM FOOTER ────────────────────────────────────── */
+.form-footer-note {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.feedback-submit {
+  background: #2563eb;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+.feedback-submit:hover:not(:disabled) {
+  background: #1d4ed8;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.45);
+}
+
+@media (max-width: 640px) {
+  .form-row { flex-direction: column; gap: 0; }
+  .recommend-toggle { flex-direction: column; }
+  .star-rating-container { flex-direction: column; align-items: flex-start; gap: 8px; }
+}

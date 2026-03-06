@@ -1,0 +1,15 @@
+{
+  "name": "heh-helpdesk",
+  "version": "1.0.0",
+  "description": "Full-stack MERN Help Desk for Hostile Environment Healthcare",
+  "scripts": {
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
