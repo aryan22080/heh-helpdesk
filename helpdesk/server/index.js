@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 require('dotenv').config();
 
 const routes = require('./routes');
@@ -21,6 +22,46 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── ROUTES ───────────────────────────────────────────────────
 app.use('/api', routes);
+
+// ─── HEX AI CHAT PROXY (Groq - Free) ─────────────────────────
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { messages, system } = req.body;
+
+    const groqMessages = [
+      { role: 'system', content: system },
+      ...messages
+    ];
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 1000,
+        temperature: 0.7,
+        messages: groqMessages
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error.message || 'Groq API error');
+    }
+
+    // Return in Anthropic-compatible format so Chatbot.jsx works unchanged
+    const replyText = data.choices?.[0]?.message?.content || 'Sorry, I could not get a response.';
+    res.json({ content: [{ type: 'text', text: replyText }] });
+
+  } catch (err) {
+    console.error('HEX proxy error:', err.message);
+    res.status(500).json({ error: { message: err.message || 'AI proxy error' } });
+  }
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -50,6 +91,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/helpdesk')
     app.listen(PORT, () => {
       console.log(`🚀 HEH Help Desk Server running on http://localhost:${PORT}`);
       console.log(`📧 Email configured: ${process.env.EMAIL_USER ? 'Yes' : 'No (update .env)'}`);
+      console.log(`🤖 HEX AI chat proxy: http://localhost:${PORT}/api/chat`);
       console.log(`🏥 Health check: http://localhost:${PORT}/health`);
     });
   })
